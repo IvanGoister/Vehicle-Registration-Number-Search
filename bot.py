@@ -10,7 +10,7 @@ import pandas as pd
 
 bot = telebot.TeleBot(config.TOKEN)
 
-MainFile = pd.read_csv('AllDatas.csv', low_memory=False)    #Your file with data
+MainFile = pd.read_csv('AllData.csv', low_memory=False)    #Your file with data
 MainFile = MainFile.sort_values(by="d_reg")
 
 def searcher(value):
