@@ -13,8 +13,6 @@ for i in all_tables:
     vehicles = pd.read_csv(i, sep=";", low_memory=False  )
 
     ShortVehicles = vehicles.iloc[:, [4, 7, 8, 9, 10, 14, 15, 18]]  # Use columns what we need
-    #ShortVehicles=vehicles.iloc[ : , [4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 ]]
-    #ShortVehicles = ShortVehicles.sort_values(by="D_REG")
     ShortVehicles.to_csv('AllData.csv', mode='a')
 # interested collumns ~> 'D_REG', 'BRAND', 'MODEL', 'MAKE_YEAR', 'COLOR', 'KIND', 'BODY', 'PURPOSE', 'FUEL', 'CAPACITY', 'OWN_WEIGHT', 'TOTAL_WEIGHT', 'N_REG_NEW'
 
