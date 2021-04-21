@@ -10,30 +10,39 @@ import pandas as pd
 
 bot = telebot.TeleBot(config.TOKEN)
 
-MainFile = pd.read_csv('AllData.csv', low_memory=False)    #Your file with data
-MainFile = MainFile.sort_values(by="d_reg")
+
+BigSortedData = pd.read_csv('BigSortedData.csv', low_memory=False)
 
 def searcher(value):
-    search_value = value
-    search_value = search_value.upper()
-    answer_value = MainFile[MainFile['n_reg_new'].isin([search_value])]
-    answer_value = answer_value.iloc[:, 1:6]
-    lll= answer_value.iloc[:, 1:2]
-    lol=len(lll)
+    search_value = value.upper()
+    answer_value = BigSortedData[BigSortedData['N_REG_NEW'].isin([search_value])]
+    answer_value = answer_value.loc[:,['D_REG', 'BRAND', 'MODEL', 'MAKE_YEAR', 'COLOR', 'N_REG_NEW']]
+
+    for a in range(len(answer_value)):
+        ff = answer_value.iloc[a, 0]
+        if ff[4] == '-':
+            alt_date_format = ff[8:] + '.' + ff[5:7] + '.' + ff[0:4]
+            answer_value.iloc[a, 0] = alt_date_format
+        else:
+            pass
+        
+    print(answer_value["D_REG"])
+
+    print(answer_value)
     finn_mess = ""
-    for i in range(lol):
+    for i in range(len(answer_value)):
+
         standart_message = "Реєстрація:     {0}\nМарка:             {1}\nМодель:          {2}\nРік випуску:   {3}\nКолір:                {4}\n~~~~~~~~~~~~~~~~\n"
 
-        dr=answer_value.iloc[i,0]
-        mr=answer_value.iloc[i,1]
-        md=answer_value.iloc[i,2]
-        ye=answer_value.iloc[i, 3]
-        co=answer_value.iloc[i, 4]
+        dr = answer_value.iloc[i, 0]
+        mr = answer_value.iloc[i, 1]
+        md = answer_value.iloc[i, 2]
+        ye = answer_value.iloc[i, 3]
+        co = answer_value.iloc[i, 4]
+
         alt_mess = standart_message.format(dr, mr, md, ye, co)
         finn_mess=finn_mess+alt_mess
     alt_mess=finn_mess
-
-    print(alt_mess)
 
     return alt_mess
 
@@ -78,3 +87,4 @@ def lalala(message):
 
 #RUN
 bot.polling(none_stop=True)
+
